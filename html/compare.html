@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<style>
+			body {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				justify-content: center;
+				height: 100vh;
+				background: #111;
+			}
+
+			.image {
+				--width: 1920px;
+				--height: 1080px;
+				position: relative;
+				width: var(--width);
+				height: var(--height);
+				overflow: hidden;
+			}
+
+			.image__img {
+				position: absolute;
+				height: 100%;
+				box-shadow: 4px 0px 0px #111, -0px 0 0 #111;
+			}
+			
+			.image__img span{
+				width: 100%;
+				color: white;
+				font-size: 32pt;
+				padding: 8px;
+				margin: 8px;
+				font-family: "verdana";
+				word-break: unset;
+				word-wrap: unset;
+				overflow-wrap: unset;
+			}
+
+			.image__img:first-child {
+				left: 0;
+				width: 100%;
+				background-size: var(--width) var(--height);
+				background: url("output.bmp");
+				background-position: center left;
+				text-align: right;
+			}
+
+			.image__img:last-child {
+				left: 0;
+				width: calc(var(--x, 50%));
+				background-position: center left;
+				background: url("output-no-roi.bmp");
+				text-align: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="image">
+			<div class="image__img"><span>FACE ROI</span></div>
+			<div class="image__img"><span>NO&nbspROI</span></div>
+		</div>
+	</body>
+</html>	
+
+<script>
+	'use strict';
+
+	document.querySelectorAll ('.image').forEach (function (elem) {
+
+		var x = undefined,
+			width = undefined;
+
+		elem.onmouseenter = function () {
+
+			var size = elem.getBoundingClientRect ();
+
+			x = size.x;
+			width = size.width;
+		};
+
+		elem.onmousemove = function (e) {
+
+			var horizontal = (e.clientX - x) / width * 100;
+
+			elem.style.setProperty ('--x', horizontal + '%');
+		};
+	});
+</script>
